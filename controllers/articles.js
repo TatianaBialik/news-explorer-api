@@ -34,9 +34,9 @@ module.exports.createArticle = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError(err.message));
-      };
+      }
 
-      next(err)
+      next(err);
     });
 };
 
@@ -52,7 +52,7 @@ module.exports.deleteArticle = (req, res, next) => {
         Article.findByIdAndRemove(req.params.articleId)
           .then((item) => res.send(item))
           .catch(next);
-      };
+      }
     })
     .catch(next);
 };

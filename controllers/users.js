@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const NotFoundError = require('../errors/NotFoundError');
 const ConflictError = require('../errors/ConflictError');
+const BadRequestError = require('../errors/BadRequestError');
 
 const { NODE_ENV = 'development', JWT_SECRET } = process.env;
 
@@ -27,7 +28,7 @@ module.exports.createUser = (req, res, next) => {
     .then((user) => {
       if (user) {
         throw new ConflictError('User with such email already exists');
-      };
+      }
 
       return bcrypt.hash(password, 10)
         .then((hash) => {
@@ -47,7 +48,7 @@ module.exports.createUser = (req, res, next) => {
               }
 
               next(err);
-            })
+            });
         })
         .catch(next);
     })

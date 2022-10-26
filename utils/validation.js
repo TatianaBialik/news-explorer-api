@@ -5,7 +5,7 @@ const { ObjectId } = require('mongoose').Types;
 const validateObjectId = (value, helpers) => {
   if (ObjectId.isValid(value)) {
     return value;
-  };
+  }
 
   return helpers.message('Object ID is invalid');
 };
@@ -13,7 +13,7 @@ const validateObjectId = (value, helpers) => {
 const validateURL = (value, helpers) => {
   if (validator.isURL(value)) {
     return value;
-  };
+  }
 
   return helpers.error('string.uri');
 };
@@ -39,7 +39,6 @@ const validateArticle = celebrate({
   }).unknown(true),
 });
 
-
 const validateLogin = celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
@@ -48,7 +47,7 @@ const validateLogin = celebrate({
 });
 
 const validateRegistration = celebrate({
-  body : Joi.object().keys({
+  body: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required().min(8),
     name: Joi.string().required().min(8).max(30),
