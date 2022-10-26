@@ -5,13 +5,14 @@ const User = require('../models/user');
 const NotFoundError = require('../errors/NotFoundError');
 const ConflictError = require('../errors/ConflictError');
 const BadRequestError = require('../errors/BadRequestError');
+const { USER_NOT_FOUND_ERROR_MESSAGE, CONFLICT_ERROR_MESSAGE } = require('../utils/constants');
 
 const { NODE_ENV = 'development', JWT_SECRET } = process.env;
 
 module.exports.getUser = (req, res, next) => {
   User.findById(req.user._id)
     .orFail(() => {
-      throw new NotFoundError('User not found');
+      throw new NotFoundError(USER_NOT_FOUND_ERROR_MESSAGE);
     })
     .then((user) => res.send(user))
     .catch(next);
@@ -27,7 +28,7 @@ module.exports.createUser = (req, res, next) => {
   User.findOne({ email })
     .then((user) => {
       if (user) {
-        throw new ConflictError('User with such email already exists');
+        throw new ConflictError(CONFLICT_ERROR_MESSAGE);
       }
 
       return bcrypt.hash(password, 10)

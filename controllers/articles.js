@@ -2,6 +2,7 @@ const Article = require('../models/article');
 const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
 const ForbiddenError = require('../errors/ForbiddenError');
+const { ARTICLE_NOT_FOUND_ERROR_MESSAGE, PERMISSION_DENIED_ERROR_MESSAGE } = require('../utils/constants');
 
 module.exports.getArticles = (req, res, next) => {
   Article.find({ owner: req.user._id })
@@ -43,11 +44,11 @@ module.exports.createArticle = (req, res, next) => {
 module.exports.deleteArticle = (req, res, next) => {
   Article.findById(req.params.articleId).select('+owner')
     .orFail(() => {
-      throw new NotFoundError('Article not found');
+      throw new NotFoundError(ARTICLE_NOT_FOUND_ERROR_MESSAGE);
     })
     .then((article) => {
       if (article.owner.toString() !== req.user._id) {
-        throw new ForbiddenError('You dont have permission to delete this article');
+        throw new ForbiddenError(PERMISSION_DENIED_ERROR_MESSAGE);
       } else {
         Article.findByIdAndRemove(req.params.articleId)
           .then((item) => res.send(item))
