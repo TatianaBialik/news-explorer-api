@@ -1,7 +1,7 @@
 # news-explorer-api
 This is the API for News Explorer project: registration and authorization, saving news articles for users.
 
-Access to API: api.my-news-explorer.students.nomoredomainssbs.ru
+Access to API: https://api.my-news-explorer.students.nomoredomainssbs.ru
 ## Technologies and features
 * Node.js
 * ExpressJS
